@@ -1,0 +1,768 @@
+
+{% load dash_filters %}
+<!DOCTYPE html>
+<html>
+
+    
+
+    <style type="text/css">
+
+
+/*# sourceMappingURL=bootstrap.css.map */
+/*# sourceMappingURL=bootstrap-utilities.css.map */
+      
+    h1{
+      color:grey;
+    }
+
+    #head{
+      display: flex;
+      flex-flow: row wrap;
+
+      
+    }  
+
+    .box{
+      float: left;
+      width: auto;
+      border-radius: 20px;
+      margin : 5px, 5px, 5px, 5px;
+    }  
+
+    .table {
+    text-align: center !important;
+    background-color: lightgrey;
+    color:white;
+    border:solid;
+    border-color:white;
+    margin-bottom: 15px;
+    
+}
+    .thead{
+    margin-bottom: 5px;
+    background-color: #38393b;
+    color:white;
+    border: solid;
+    border-radius: 15px;
+    border-color:white;
+    padding-top:5px;
+
+
+    }
+
+    .tfoot{
+      background-color: #38393b;
+      padding-top:5px;
+    }
+
+    .align-left{
+      text-align: left;
+    }
+
+    .tbody{
+    padding-top:5px;
+    
+    }
+
+   .mb-2 {
+    margin-bottom: 10px;
+   }
+
+   .block_table{
+    margin-top:10px;
+   }
+
+
+
+
+   
+
+    </style>
+</head>
+<body>
+
+               
+
+                    <!-- Page Heading -->
+                    <div id="title">
+                        <h1 class="h3 mb-0 text-gray-800">Rapport de programmation FEDER - Autorité de gestion de Mayotte</h1>
+                       <hr>
+                    </div>
+
+                    <div>{% for item in enveloppe %}
+                     <h3> Au {{date}}, {{val_ue}} euros ont été programmés au titre du FEDER, soit {{val_ue|divide:item.Enveloppe_totale}}% de l'enveloppe dédiée pour la période de programmation 2014 - 2020. Pour rappel, cette enveloppe s'élève à {{item.Enveloppe_totale}} euros. Le montant certifié à ce jour s'élève à {{val_cert}} soit {{val_cert|divide:item.Enveloppe_totale}} % de l'enveloppe disponible. Aussi, à ce jour, le montant restant à programmer s'élève à {{item.Enveloppe_totale|substract:val_ue}} euros. Le montant à certifier pour consommer la totalité de l'enveloppe s'élève à {{item.Enveloppe_totale|substract:val_cert}} euros. </h3>
+                    </div>{% endfor %}
+
+                    <hr>
+
+
+
+                    <h2>Avancement général de la programmation</h2>
+                    <table class='table mb-2'>
+                      {% for item in enveloppe %}
+                      <thead >
+                        <tr class='thead'>
+                          <th>Enveloppe totale</th>
+                          <th>Montant total programmé</th>
+                          <th>Montant Feder programmé</th>
+                          <th>Montant Feder certifié</th>
+                          <th>Taux de programmation</th>
+                          <th>Taux de certification</th>
+                        </tr>
+                        
+                      </thead>
+                      <tbody>
+                        <tr class='tbody'>
+                        <td class='tbody'>{{item.Enveloppe_totale}}</td>
+                        <td class='tbody'>{{val_tot}}</td>
+                        <td class='tbody'>{{val_ue}}</td>
+                        <td class='tbody'>{{val_cert}}</td>
+                        <td class='tbody'>{{val_ue|divide:item.Enveloppe_totale}}%</td>
+                        <td class='tbody'>{{val_cert|divide:item.Enveloppe_totale}} %</td>
+                        </tr>
+                        
+                      </tbody>
+                      {% endfor %}
+                    </table>
+
+
+                    <hr>
+                    
+                          <div class=block_table>
+                            <h2>Avancement de la programmation par Axe</h2>
+                                        <table class="table table-sm table-hover table-bordered">
+                                          <thead class='align-middle text-center thead-dark'>
+                                            <tr class='thead'>
+                                              <th class='align-middle' scope="col">Axe</th>
+                                              <th class='align-middle' scope="col">Enveloppe</th>
+                                              <th class='align-middle' scope="col">Montant programmé</th>
+                                              <th class='align-middle' scope="col">Feder certifié</th>
+                                              <th class='align-middle' scope="col">Restant à programmer</th>
+                                              <th class='align-middle' scope="col">Restant à certifier</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class='align-middle text-center'>
+                                            
+                                             {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">1</th>
+                                              <td>{{item.Axe_1}}</td>
+                                              <td>{{Axe_1.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_1.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_1|substract:Axe_1.Montant_UE}}</td>
+                                              <td>{{item.Axe_1|substract:Axe_1.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">2</th>
+                                              <td>{{item.Axe_2}}</td>
+                                              <td>{{Axe_2.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_2.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_2|substract:Axe_2.Montant_UE}}</td>
+                                              <td>{{item.Axe_2|substract:Axe_2.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">3</th>
+                                              <td>{{item.Axe_3}}</td>
+                                              <td>{{Axe_3.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_3.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_3|substract:Axe_3.Montant_UE}}</td>
+                                              <td>{{item.Axe_3|substract:Axe_3.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                           <tr class='tbody'>
+                                              <th scope="row">4</th>
+                                              <td>{{item.Axe_4}}</td>
+                                              <td>{{Axe_4.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_4.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_4|substract:Axe_4.Montant_UE}}</td>
+                                              <td>{{item.Axe_4|substract:Axe_4.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                           <tr class='tbody'>
+                                              <th scope="row">5</th>
+                                              <td>{{item.Axe_5}}</td>
+                                              <td>{{Axe_5.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_5.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_5|substract:Axe_5.Montant_UE}}</td>
+                                              <td>{{item.Axe_5|substract:Axe_5.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">6</th>
+                                              <td>{{item.Axe_6}}</td>
+                                              <td>{{Axe_6.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_6.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_6|substract:Axe_6.Montant_UE}}</td>
+                                              <td>{{item.Axe_6|substract:Axe_6.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">12</th>
+                                              <td>{{item.Axe_12}}</td>
+                                              <td>{{Axe_12.Montant_UE|floatformat:2}}</td>
+                                                  {% if Axe_12.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{Axe_12.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.Axe_12|substract:Axe_12.Montant_UE}}</td>
+                                                  {% if Axe_12.Montant_Certif == None %}
+                                                  <td>{{item.Axe_12}}</td>
+                                                  {% else %}
+                                                  <td>{{item.Axe_12|substract:Axe_12.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+                                            
+
+                                             {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">13</th>
+                                              <td>{{item.Axe_13}}</td>
+                                              <td>{{Axe_13.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_13.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_13|substract:Axe_13.Montant_UE}}</td>
+                                              <td>{{item.Axe_13|substract:Axe_13.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                            
+                                          </tbody>
+
+                                         <tfoot class= 'tfoot'>
+                                          <tr class= 'tfoot'>
+                                            {% for item in enveloppe %}
+                                              <td class='align-middle text-center'>Total</td>
+                                              <td class='align-middle text-center'>{{item.Enveloppe_totale}}</td>
+                                              
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_UE.montant_UE__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {% endif %}
+                                                  
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_Certif.DP_certif__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0 </td>    
+                                                {% endif %}
+
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_UE.montant_UE__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_Certif.DP_certif__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+                                              </tr>
+
+
+                                               
+                                                    
+                                                    
+                                            
+                                            {% endfor %}
+
+                                          </tfoot> 
+                                        </table>
+                                       
+                    <hr>
+
+
+
+                        
+
+                            <h2>Avancement de la programmation par OS</h2>
+                                        <table class="table">
+                                          <thead class='align-middle text-center thead-dark'>
+                                           <tr class='thead'>
+                                              <th class='align-middle' scope="col">OS</th>
+                                              <th class='align-middle' scope="col">Enveloppe</th>
+                                              <th class='align-middle' scope="col">Montant programmé</th>
+                                              <th class='align-middle' scope="col">Feder certifié</th>
+                                              <th class='align-middle' scope="col">Restant à programmer</th>
+                                              <th class='align-middle' scope="col">Restant à certifier</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class='tbody'>
+                                            
+                                             {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">1.1</th>
+                                              <td>{{item.OS_1_1}}</td>
+                                              <td>{{OS_1_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_1.Montant_Certif|floatformat:2}}
+                                                  </td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_1|substract:OS_1_1.Montant_UE}}</td>
+                                                  {% if OS_1_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_1|substract:OS_1_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+
+                                              
+                                            </tr>
+                                            {% endfor %}
+
+                                           {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">1.2</th>
+                                              <td>{{item.OS_1_2}}</td>
+                                              <td>{{OS_1_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_2|substract:OS_1_2.Montant_UE}}</td>
+                                                  {% if OS_1_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_2|substract:OS_1_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">1.3</th>
+                                              <td>{{item.OS_1_3}}</td>
+                                              <td>{{OS_1_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_3|substract:OS_1_3.Montant_UE}}</td>
+                                                  {% if OS_1_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_3|substract:OS_1_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">1.4</th>
+                                              <td>{{item.OS_1_4}}</td>
+                                              <td>{{OS_1_4.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_4.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_4.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_4|substract:OS_1_4.Montant_UE}}</td>
+                                                  {% if OS_1_4.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_4}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_4|substract:OS_1_4.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">2.1</th>
+                                              <td>{{item.OS_2_1}}</td>
+                                              <td>{{OS_2_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_1|substract:OS_2_1.Montant_UE}}</td>
+                                                  {% if OS_2_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_1|substract:OS_2_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                           {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">2.2</th>
+                                              <td>{{item.OS_2_2}}</td>
+                                              <td>{{OS_2_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_2|substract:OS_2_2.Montant_UE}}</td>
+                                                  {% if OS_2_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_2|substract:OS_2_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">2.3</th>
+                                              <td>{{item.OS_2_3}}</td>
+                                              <td>{{OS_2_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_3|substract:OS_2_3.Montant_UE}}</td>
+                                                  {% if OS_2_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_3|substract:OS_2_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">3.1</th>
+                                              <td>{{item.OS_3_1}}</td>
+                                              <td>{{OS_3_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_1|substract:OS_3_1.Montant_UE}}</td>
+                                                  {% if OS_3_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_1|substract:OS_3_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">3.2</th>
+                                              <td>{{item.OS_3_2}}</td>
+                                              <td>{{OS_3_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_2|substract:OS_3_2.Montant_UE}}</td>
+                                                  {% if OS_3_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_2|substract:OS_3_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">3.3</th>
+                                              <td>{{item.OS_3_3}}</td>
+                                              <td>{{OS_3_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_3|substract:OS_3_3.Montant_UE}}</td>
+                                                  {% if OS_3_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_3|substract:OS_3_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">4.1</th>
+                                              <td>{{item.OS_4_1}}</td>
+                                              <td>{{OS_4_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_1|substract:OS_4_1.Montant_UE}}</td>
+                                                  {% if OS_4_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_1|substract:OS_4_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr class='tbody'>
+                                              <th scope="row">4.2</th>
+                                              <td>{{item.OS_4_2}}</td>
+                                              <td>{{OS_4_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_2|substract:OS_4_2.Montant_UE}}</td>
+                                                  {% if OS_4_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_2|substract:OS_4_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">4.3</th>
+                                              <td>{{item.OS_4_3}}</td>
+                                              <td>{{OS_4_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_3|substract:OS_4_3.Montant_UE}}</td>
+                                                  {% if OS_4_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_3|substract:OS_4_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">4.4</th>
+                                              <td>{{item.OS_4_4}}</td>
+                                              <td>{{OS_4_4.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_4.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_4.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_4|substract:OS_4_4.Montant_UE}}</td>
+                                                  {% if OS_4_4.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_4}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_4|substract:OS_4_4.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">5.1</th>
+                                              <td>{{item.OS_5_1}}</td>
+                                              <td>{{OS_5_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_5_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_5_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_5_1|substract:OS_5_1.Montant_UE}}</td>
+                                                  {% if OS_5_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_5_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_5_1|substract:OS_5_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                              {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">5.2</th>
+                                              <td>{{item.OS_5_2}}</td>
+                                              <td>{{OS_5_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_5_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_5_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_5_2|substract:OS_5_2.Montant_UE}}</td>
+                                                  {% if OS_5_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_5_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_5_2|substract:OS_5_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">6.1</th>
+                                              <td>{{item.OS_6_1}}</td>
+                                              <td>{{OS_6_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_6_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_6_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_6_1|substract:OS_6_1.Montant_UE}}</td>
+                                                  {% if OS_6_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_6_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_6_1|substract:OS_6_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                             {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">6.2</th>
+                                              <td>{{item.OS_6_2}}</td>
+                                              <td>{{OS_6_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_6_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_6_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_6_2|substract:OS_6_2.Montant_UE}}</td>
+                                                  {% if OS_6_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_6_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_6_2|substract:OS_6_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                              {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">12</th>
+                                              <td>{{item.OS_12_1}}</td>
+                                              <td>{{OS_12_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_12_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_12_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_12_1|substract:OS_12_1.Montant_UE}}</td>
+                                                  {% if OS_12_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_12_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_12_1|substract:OS_12_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                             <tr class='tbody'>
+                                              <th scope="row">13</th>
+                                              <td>{{item.OS_13_1}}</td>
+                                              <td>{{OS_13_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_13_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_13_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_13_1|substract:OS_13_1.Montant_UE}}</td>
+                                                  {% if OS_13_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_13_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_13_1|substract:OS_13_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                          </tbody>
+
+                                         <tfoot class= 'tfoot'>
+                                            {% for item in enveloppe %}
+                                            <tr class='tfoot'>
+                                              <td class='align-middle text-center'>Total</td>
+                                              <td class='align-middle text-center'>{{item.Enveloppe_totale}}</td>
+                                              
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_UE.montant_UE__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {% endif %}
+                                                  
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_Certif.DP_certif__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0 </td>    
+                                                {% endif %}
+
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_UE.montant_UE__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_Certif.DP_certif__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+
+                                               
+                                                    
+                                                    
+                                            
+                                            {% endfor %}
+                                            </tr>
+
+                                          </tfoot> 
+                                        </table>
+
+                    <hr>
+                                    
+                    
+                   
+                   
+                   
+
+</body>
+
+
+</html>

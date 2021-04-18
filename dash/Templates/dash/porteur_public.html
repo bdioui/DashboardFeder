@@ -1,0 +1,166 @@
+{% extends 'dash/base.html' %}
+{% load static %}
+{% load dash_filters %}
+
+<script>
+{% block jquery %}
+
+$('#dataTable').DataTable();
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+    <div class="container-fluid">
+
+                <div class="row mx-2">
+                        <div class='ml-3'>
+                        <h1 class="h3 mb-2 text-gray-800">Mes porteurs publics sont ici.</h1>
+                            <p class="mb-4">Vous trouverez ici tous les dossiers dont le porteur est public. Utilisez les filtres pour classer vos données ou recherchez directement un mot clé dans la barre de recherche. Cliquez sur un dossier pour ouvrir sa page. 
+                        </div>
+
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Dossiers programmés </div>
+                                            <div class="h1 mb-0 font-weight-bold text-gray-800">{{nb_dossiers}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-folder fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Coût total programmé</div>
+                                           <div class="h4 mb-0 font-weight-bold text-gray-800">{{ val_CT }} € </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Montant FEDER programmé </div>
+                                            <div class="h4 mb-0 font-weight-bold text-gray-800">{{ val_ue }} € </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example --> 
+                       <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Montant certifié <span class='font-weight-bold text-gray-800 h4'>{{val_certif}} €</span> </div>
+                                        </div>
+                                        
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> Taux de certification
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h6 mb-0 mr-3 font-weight-bold text-gray-800">{{val_certif|divide:val_ue}} % </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: {{val_certif|divide:val_ue}}%" aria-valuenow="75" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                <div class="card shadow mb-4 mx-3">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tous mes porteurs publics</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="table-info">
+                                        <tr>
+                                            <th>Numéro de Dossier</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Feder programmé</th>
+                                            <th>Coût total certifié</th>
+                                            <th>Feder certifié</th>
+                                            <th>Statut</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Numéro de Dossier</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Feder programmé</th>
+                                            <th>Coût total certifié</th>
+                                            <th>Feder certifié</th>
+                                            <th>Statut</th>
+
+                                        </tr>
+                                    </tfoot>
+                                    <tbody> 
+                                    	  {% if d %}
+                                         {% for i in d %}
+                                        <tr>
+                                            <td><a class= 'btn btn-info' href="{% url 'dash:opération' i.N_Dossier %}">{{i.N_Dossier}}</a></td>
+                                            <td>{{i.Bénéficiaire}}</td>
+                                            <td>{{i.UE}}</td>
+                                            <td>{{i.Coût_total_en_cours}}</td>
+                                            <td>{{i.UE_déjà_versé_dans_les_CSF_envoyés_AC_CSF}}</td>
+                                            <td>{{i.Statut_macro}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+{% endblock %}
