@@ -1,1 +1,1 @@
-web: gunicorn dash_board.wsgi.py
+web: gunicorn dash_board.wsgi
