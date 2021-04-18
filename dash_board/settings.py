@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '#_*0!wgy1n#k8v-843qmv4@j0=&4a#5kd8bpah!-_9ox$*0(ec'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["guarded-bayou-68372.herokuapp.com"]
 
 
 # Application definition
