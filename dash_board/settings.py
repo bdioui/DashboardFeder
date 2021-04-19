@@ -61,7 +61,9 @@ ROOT_URLCONF = 'dash_board.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'dags/Templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'dash', 'templates', 'dash' ),
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
