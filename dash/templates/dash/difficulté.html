@@ -1,0 +1,28 @@
+{% extends 'dash/base.html' %}
+
+{% block content %}
+
+<div class="col-auto mb-4">
+
+                            
+
+                            <!-- Approach -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>Dossiers en difficulté ?</h6>
+                                    <span class='text-secondary text-xs'>Il semblerait que ces dossiers en instruction soient en difficulté. Ils ont été déposé il y'a plus d'un an et n'ont pas encore été conventionnés...</span>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                    {% for opération in query_difficulté %}
+									  <li class="list-group-item"><a class="btn btn-sm btn-primary mr-4" href="{% url 'dash:opération' opération.numero_op %}">{{opération.numero_op}}</a> <span class='text-primary'>{{opération.porteur}} </span> | déposé : {{opération.date_dépôt}} ({{opération.statut_macro}})</li>
+									{% endfor %}
+
+									</ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+{% endblock %}

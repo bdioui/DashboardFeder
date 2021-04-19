@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'dash/base.html' %}
+<script>
+{% block jquery %}
+
+$('#dataTable').DataTable({
+    dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excel', 'pdf', 'print'
+        ]
+});
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+                <div class="row mx-2">
+
+                <!-- Page Heading -->
+                    <div class="ml-3">
+                    <h1 class="h3 mb-2 text-gray-800">Mes dossiers déposés</h1>
+                    <p class="mb-4">Vous trouverez ici tous les dossiers qui ont été déposés chez vous et sont en attente d'instruction. Utilisez les filtres pour classer vos données ou recherchez directement un mot dans la barre de rechercher. Cliquez sur un dossier pour ouvrir sa page. 
+                    
+                    </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Nombre de dossiers déposés </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{nb_dossiers}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-folder fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Montant Coût total déposé</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_tot}} €</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Montant FEDER déposé </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_ue}} €</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+                        </div>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    
+ 
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-wh fa-table mr-2" aria-hidden="true"></i>Mes dossiers programmés</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>Numéro de Dossier</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Feder programmé</th>
+                                            <th>Coût total en cours</th>
+                                            <th>Date de dépôt du dossier</th>
+                                            <th>Statut</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Numéro de Dossier</th>
+                                            <th>Bénéficiaire</th>
+                                            <th>Feder programmé</th>
+                                            <th>Coût total en cours</th>
+                                            <th>Date de dépôt du dossier</th>
+                                            <th>Statut</th>
+
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% if d %} 
+                                         {% for i in d %}
+                                        <tr>
+                                            <td><a class= 'btn btn-primary' href="{% url 'dash:opération' i.N_Dossier %}">{{i.N_Dossier}}</a></td>
+                                            <td>{{i.Bénéficiaire}}</td>
+                                            <td>{{i.UE}}</td>
+                                            <td>{{i.Coût_total_en_cours}}</td>
+                                            <td>{{i.Date_Dépôt}}</td>
+                                            <td>{{i.Statut_macro}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+{% endblock %}
+
+</html>

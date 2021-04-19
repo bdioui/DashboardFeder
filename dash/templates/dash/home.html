@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+
+{% extends 'dash/base.html' %}
+{% load static%}
+{% load dash_filters %}
+<html lang="en">
+
+<script>
+{% block jquery %}
+var endpoint = '/api/data/'
+var data = []
+var labels = []
+
+var bar_endpoint = '/api/bar_data/'
+var bar_labels = []
+var bar_data = []
+var bar_cert = []
+
+var bar_endpoint2 = '/api/bar_data2/'
+var bar_data2 = []
+var bar_lables2 = []
+var bar_cert2 = [];
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        default_data = data.data
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'random',
+              data: default_data,
+              backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#ffe896'],
+              hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+              hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              caretPadding: 10,
+            },
+            legend: {
+              display: false
+            },
+            cutoutPercentage: 80,
+            },
+          
+          }) 
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+$.ajax({
+    method: "GET",
+    url: bar_endpoint,
+    success: function(data){
+        bar_labels = data.bar_labels
+        bar_data = data.bar_data
+        bar_cert = data.bar_data_cert
+        var ctx = document.getElementById("Axe_Chart");
+        var myAreaChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            datasets: [
+            {
+        
+              label: 'Feder programmé',
+              data: bar_data,
+              backgroundColor: ['#36b9cc','#36b9cc', '#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc',],
+              hoverBorderColor: "rgba(234, 236, 244, 1)"},
+
+              {
+                label : 'Feder certifié',
+                data : bar_cert,
+                backgroundColor: ['#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e', ],
+                hoverBorderColor: "rgba(234, 236, 244, 1)"},
+
+            ],
+
+            labels: bar_labels,
+        },
+          
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              caretPadding: 10,
+
+            },
+            legend: {
+              display: false
+            },
+            cutoutPercentage: 80,
+            },
+          
+          }) 
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+$.ajax({
+    method: "GET",
+    url: bar_endpoint2,
+    success: function(data){
+        bar_labels2 = data.bar_labels
+        bar_data2 = data.bar_data
+        bar_cert2 = data.bar_data_cert
+        var ctx = document.getElementById("OS_Chart");
+        var myBarChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            datasets: [
+            {
+        
+              label: 'Feder programmé',
+              data: bar_data2,
+              backgroundColor: ['#36b9cc','#36b9cc', '#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc','#36b9cc'],
+              hoverBorderColor: "rgba(234, 236, 244, 1)"},
+
+              {
+                label : 'Feder certifié',
+                data : bar_cert2,
+                backgroundColor: ['#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e','#f6c23e'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)"},
+
+            ],
+
+            labels: bar_labels2,
+        },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              caretPadding: 10,
+            },
+            legend: {
+              display: false
+            },
+            cutoutPercentage: 80,
+            },
+          
+          }) 
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+
+
+
+// Pie Chart Example
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+<!-- Si les enveloppes ne sont pas renseignées  -->
+{% if not enveloppe %}
+<!-- Begin Page Content -->
+                <div class="container-fluid"> 
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+                        <a href="{% url 'dash:Report' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Editer rapport</a>
+                    </div>
+
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Montant total programmé </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_tot}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Montant FEDER programmé</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_ue}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Montant FEDER certifié </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_cert}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                vous n'avez pas renseigné vos enveloppes !  </div>
+                                            <div class=" text-xs mb-0 font-weight-bold text-gray-800"> Cliquez sur le bouton "renseigner mes enveloppes". </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                       
+
+                       
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Ma programmation par Axe</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="Axe_Chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Répartition des dossiers </h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Dossiers déposés
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Dossiers en instruction
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> Dossiers programmés
+                                        </span>
+
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-warning"></i> Dossiers retirés
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- OS Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Ma programmation par OS</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="OS_Chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Ma programmation par axe</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="d-flex flex-row">
+                                        <table class="table table-sm table-hover table-bordered">
+                                          <thead class='align-middle text-center thead-dark'>
+                                            <tr class='align-middle'>
+                                              <th class='align-middle' scope="col">Axe</th>
+                                              <th class='align-middle' scope="col">Coût total programmé ()</th>
+                                              <th class='align-middle' scope="col">Feder programmé ()</th>
+                                              <th class='align-middle' scope="col">Feder certifié ()</th>
+                                              <th class='align-middle' scope="col">Feder payé ()</th>
+                                              <th class='align-middle' scope="col">Nombre de dossiers</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class='align-middle text-center'>
+                                            
+                                            {% for axe in somme_axe %}
+                                            <tr class='text-center' class="align-middle ">
+                                              <th class='text-left' scope="row">{{axe.axe}}</th>
+                                              <td>{{axe.Montant_CT|floatformat}} </td>
+                                              <td>{{axe.Montant_UE|floatformat}} </td>
+
+                                              {% if axe.Montant_Certif != None %}
+                                              <td>{{axe.Montant_Certif|floatformat}} </td>
+                                              {% else %}
+                                              <td>0 </td>
+                                              {% endif %}
+
+                                              {% if axe.Montant_Payé != None %}
+                                              <td>{{axe.Montant_Payé}}</td>
+                                              {% else %}
+                                              <td>0 </td>
+                                              {% endif %}
+                                              
+                                              {% if axe.Nombre != None %}
+                                              <td>{{axe.Nombre}} </td>
+                                              {% else %}
+                                              <td> 0 </td>
+                                              {% endif %}
+
+                                              
+                                            </tr>
+                                            {% endfor %}
+
+                                             
+                                            
+                                            
+                                          </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Mon top 10 </h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="pt-1 pb-2">
+                                        
+                                        <table class="table table-sm">
+                                          <thead class="mb-2">
+                                            <tr class="text-center align-middle ">
+                                              <th scope="col" class="align-middle">Numéro d'opération</th>
+                                              <th scope="col" class="align-middle">Porteur</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for top in top10 %}
+                                            <tr>
+                                              <td class = "text-center align-middle"><a class="btn btn-sm btn-primary" href="{% url 'dash:opération' top.numero_op %}">{{top.numero_op}}</a></td>
+                                              <td class = "text-center">{{top.porteur}}</td> 
+                                            </tr>
+                                            {% endfor %}
+
+                                            
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+            </div>
+            <!-- End of Main Content -->
+
+                        
+{% else %}
+<!-- Si les enveloppes sont renseignées  -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid"> 
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+                        <a href="{% url 'dash:Report' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Editer rapport</a>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Montant total programmé </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_tot}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Montant FEDER programmé</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_ue}} </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Montant FEDER certifié </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{val_cert}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example --> 
+                        
+                        {% for item in enveloppe %}
+                       <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> Taux de certification
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{val_cert|divide:item.Enveloppe_totale}} % </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: {{val_cert|divide:item.Enveloppe_totale}}%" aria-valuenow="{{taux_certif|floatformat:'0'}}" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa fa-percent fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                       
+
+                       
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-chart-bar mr-2" aria-hidden="true"></i>Ma programmation par Axe</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="Axe_Chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-chart-pie mr-2" aria-hidden="true"></i>Répartition des dossiers </h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Dossiers déposés
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Dossiers en instruction
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> Dossiers programmés
+                                        </span>
+
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-warning"></i> Dossiers retirés
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- OS Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-chart-bar mr-2" aria-hidden="true"></i>Ma programmation par OS</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="OS_Chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-table mr-2" aria-hidden="true"></i>Mes enveloppes par Axe </h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="d-flex flex-row">
+                                        <table class="table table-sm table-hover table-bordered">
+                                          <thead class='align-middle text-center thead-dark'>
+                                            <tr class='align-middle'>
+                                              <th class='align-middle' scope="col">Axe</th>
+                                              <th class='align-middle' scope="col">Enveloppe</th>
+                                              <th class='align-middle' scope="col">Montant programmé</th>
+                                              <th class='align-middle' scope="col">Feder certifié</th>
+                                              <th class='align-middle' scope="col">Restant à programmer</th>
+                                              <th class='align-middle' scope="col">Restant à certifier</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class='align-middle text-center'>
+                                            
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">1</th>
+                                              <td>{{item.Axe_1}}</td>
+                                              <td>{{Axe_1.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_1.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_1|substract:Axe_1.Montant_UE}}</td>
+                                              <td>{{item.Axe_1|substract:Axe_1.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">2</th>
+                                              <td>{{item.Axe_2}}</td>
+                                              <td>{{Axe_2.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_2.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_2|substract:Axe_2.Montant_UE}}</td>
+                                              <td>{{item.Axe_2|substract:Axe_2.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">3</th>
+                                              <td>{{item.Axe_3}}</td>
+                                              <td>{{Axe_3.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_3.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_3|substract:Axe_3.Montant_UE}}</td>
+                                              <td>{{item.Axe_3|substract:Axe_3.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">4</th>
+                                              <td>{{item.Axe_4}}</td>
+                                              <td>{{Axe_4.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_4.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_4|substract:Axe_4.Montant_UE}}</td>
+                                              <td>{{item.Axe_4|substract:Axe_4.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">5</th>
+                                              <td>{{item.Axe_5}}</td>
+                                              <td>{{Axe_5.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_5.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_5|substract:Axe_5.Montant_UE}}</td>
+                                              <td>{{item.Axe_5|substract:Axe_5.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">6</th>
+                                              <td>{{item.Axe_6}}</td>
+                                              <td>{{Axe_6.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_6.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_6|substract:Axe_6.Montant_UE}}</td>
+                                              <td>{{item.Axe_6|substract:Axe_6.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">12</th>
+                                              <td>{{item.Axe_12}}</td>
+                                              <td>{{Axe_12.Montant_UE|floatformat:2}}</td>
+                                                  {% if Axe_12.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{Axe_12.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.Axe_12|substract:Axe_12.Montant_UE}}</td>
+                                                  {% if Axe_12.Montant_Certif == None %}
+                                                  <td>{{item.Axe_12}}</td>
+                                                  {% else %}
+                                                  <td>{{item.Axe_12|substract:Axe_12.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+                                            
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">13</th>
+                                              <td>{{item.Axe_13}}</td>
+                                              <td>{{Axe_13.Montant_UE|floatformat:2}}</td>
+                                              <td>{{Axe_13.Montant_Certif|floatformat:2}}</td>
+                                              <td>{{item.Axe_13|substract:Axe_13.Montant_UE}}</td>
+                                              <td>{{item.Axe_13|substract:Axe_13.Montant_Certif}}</td>  
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                            
+                                          </tbody>
+
+                                         <tfoot class= 'table-dark'>
+                                            {% for item in enveloppe %}
+                                              <td class='align-middle text-center'>Total</td>
+                                              <td class='align-middle text-center'>{{item.Enveloppe_totale}}</td>
+                                              
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_UE.montant_UE__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {% endif %}
+                                                  
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_Certif.DP_certif__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0 </td>    
+                                                {% endif %}
+
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_UE.montant_UE__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_Certif.DP_certif__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+
+                                               
+                                                    
+                                                    
+                                            
+                                            {% endfor %}
+
+                                          </tfoot> 
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                
+                            </div>
+
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-table mr-2" aria-hidden="true"></i>Mes enveloppes par OS</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="d-flex flex-row">
+                                        <table class="table table-sm table-hover table-bordered">
+                                          <thead class='align-middle text-center thead-dark'>
+                                            <tr class='align-middle'>
+                                              <th class='align-middle' scope="col">OS</th>
+                                              <th class='align-middle' scope="col">Enveloppe</th>
+                                              <th class='align-middle' scope="col">Montant programmé</th>
+                                              <th class='align-middle' scope="col">Feder certifié</th>
+                                              <th class='align-middle' scope="col">Restant à programmer</th>
+                                              <th class='align-middle' scope="col">Restant à certifier</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class='align-middle text-center'>
+                                            
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">1.1</th>
+                                              <td>{{item.OS_1_1}}</td>
+                                              <td>{{OS_1_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_1.Montant_Certif|floatformat:2}}
+                                                  </td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_1|substract:OS_1_1.Montant_UE}}</td>
+                                                  {% if OS_1_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_1|substract:OS_1_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+
+                                              
+                                            </tr>
+                                            {% endfor %}
+
+                                           {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">1.2</th>
+                                              <td>{{item.OS_1_2}}</td>
+                                              <td>{{OS_1_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_2|substract:OS_1_2.Montant_UE}}</td>
+                                                  {% if OS_1_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_2|substract:OS_1_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">1.3</th>
+                                              <td>{{item.OS_1_3}}</td>
+                                              <td>{{OS_1_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_3|substract:OS_1_3.Montant_UE}}</td>
+                                                  {% if OS_1_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_3|substract:OS_1_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">1.4</th>
+                                              <td>{{item.OS_1_4}}</td>
+                                              <td>{{OS_1_4.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_1_4.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_1_4.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_1_4|substract:OS_1_4.Montant_UE}}</td>
+                                                  {% if OS_1_4.Montant_Certif == None %}
+                                                  <td>{{item.OS_1_4}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_1_4|substract:OS_1_4.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">2.1</th>
+                                              <td>{{item.OS_2_1}}</td>
+                                              <td>{{OS_2_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_1|substract:OS_2_1.Montant_UE}}</td>
+                                                  {% if OS_2_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_1|substract:OS_2_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                           {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">2.2</th>
+                                              <td>{{item.OS_2_2}}</td>
+                                              <td>{{OS_2_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_2|substract:OS_2_2.Montant_UE}}</td>
+                                                  {% if OS_2_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_2|substract:OS_2_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">2.3</th>
+                                              <td>{{item.OS_2_3}}</td>
+                                              <td>{{OS_2_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_2_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_2_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_2_3|substract:OS_2_3.Montant_UE}}</td>
+                                                  {% if OS_2_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_2_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_2_3|substract:OS_2_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">3.1</th>
+                                              <td>{{item.OS_3_1}}</td>
+                                              <td>{{OS_3_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_1|substract:OS_3_1.Montant_UE}}</td>
+                                                  {% if OS_3_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_1|substract:OS_3_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">3.2</th>
+                                              <td>{{item.OS_3_2}}</td>
+                                              <td>{{OS_3_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_2|substract:OS_3_2.Montant_UE}}</td>
+                                                  {% if OS_3_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_2|substract:OS_3_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">3.3</th>
+                                              <td>{{item.OS_3_3}}</td>
+                                              <td>{{OS_3_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_3_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_3_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_3_3|substract:OS_3_3.Montant_UE}}</td>
+                                                  {% if OS_3_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_3_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_3_3|substract:OS_3_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">4.1</th>
+                                              <td>{{item.OS_4_1}}</td>
+                                              <td>{{OS_4_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_1|substract:OS_4_1.Montant_UE}}</td>
+                                                  {% if OS_4_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_1|substract:OS_4_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">4.2</th>
+                                              <td>{{item.OS_4_2}}</td>
+                                              <td>{{OS_4_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_2|substract:OS_4_2.Montant_UE}}</td>
+                                                  {% if OS_4_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_2|substract:OS_4_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">4.3</th>
+                                              <td>{{item.OS_4_3}}</td>
+                                              <td>{{OS_4_3.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_3.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_3.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_3|substract:OS_4_3.Montant_UE}}</td>
+                                                  {% if OS_4_3.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_3}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_3|substract:OS_4_3.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">4.4</th>
+                                              <td>{{item.OS_4_4}}</td>
+                                              <td>{{OS_4_4.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_4_4.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_4_4.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_4_4|substract:OS_4_4.Montant_UE}}</td>
+                                                  {% if OS_4_4.Montant_Certif == None %}
+                                                  <td>{{item.OS_4_4}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_4_4|substract:OS_4_4.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">5.1</th>
+                                              <td>{{item.OS_5_1}}</td>
+                                              <td>{{OS_5_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_5_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_5_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_5_1|substract:OS_5_1.Montant_UE}}</td>
+                                                  {% if OS_5_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_5_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_5_1|substract:OS_5_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                              {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">5.2</th>
+                                              <td>{{item.OS_5_2}}</td>
+                                              <td>{{OS_5_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_5_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_5_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_5_2|substract:OS_5_2.Montant_UE}}</td>
+                                                  {% if OS_5_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_5_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_5_2|substract:OS_5_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">6.1</th>
+                                              <td>{{item.OS_6_1}}</td>
+                                              <td>{{OS_6_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_6_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_6_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_6_1|substract:OS_6_1.Montant_UE}}</td>
+                                                  {% if OS_6_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_6_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_6_1|substract:OS_6_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">6.2</th>
+                                              <td>{{item.OS_6_2}}</td>
+                                              <td>{{OS_6_2.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_6_2.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_6_2.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_6_2|substract:OS_6_2.Montant_UE}}</td>
+                                                  {% if OS_6_2.Montant_Certif == None %}
+                                                  <td>{{item.OS_6_2}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_6_2|substract:OS_6_2.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                              {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">12</th>
+                                              <td>{{item.OS_12_1}}</td>
+                                              <td>{{OS_12_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_12_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_12_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_12_1|substract:OS_12_1.Montant_UE}}</td>
+                                                  {% if OS_12_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_12_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_12_1|substract:OS_12_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+                                             {% for item in enveloppe %}
+                                            <tr>
+                                              <th scope="row">13</th>
+                                              <td>{{item.OS_13_1}}</td>
+                                              <td>{{OS_13_1.Montant_UE|floatformat:2}}</td>
+                                                  {% if OS_13_1.Montant_Certif == None %}
+                                                  <td> 0 </td>
+                                                  {% else %}
+                                                  <td>{{OS_13_1.Montant_Certif|floatformat:2}}</td>
+                                                  {% endif %}
+
+                                              <td>{{item.OS_13_1|substract:OS_13_1.Montant_UE}}</td>
+                                                  {% if OS_13_1.Montant_Certif == None %}
+                                                  <td>{{item.OS_13_1}}</td>
+                                                  {% else %}
+                                                  <td>{{item.OS_13_1|substract:OS_13_1.Montant_Certif}}</td> 
+                                                  {% endif %} 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                          </tbody>
+
+                                         <tfoot class= 'table-dark'>
+                                            {% for item in enveloppe %}
+                                              <td class='align-middle text-center'>Total</td>
+                                              <td class='align-middle text-center'>{{item.Enveloppe_totale}}</td>
+                                              
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_UE.montant_UE__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {% endif %}
+                                                  
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{somme_Certif.DP_certif__sum|floatformat:2}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0 </td>    
+                                                {% endif %}
+
+                                                {% if somme_UE.montant_UE__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_UE.montant_UE__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+                                                {% if somme_Certif.DP_certif__sum != 0 %}
+                                                <td class='align-middle text-center'>{{item.Enveloppe_totale|substract:somme_Certif.DP_certif__sum}}</td>
+                                                {% else %}
+                                                <td class='align-middle text-center'>0</td>
+                                                {%endif%}
+
+
+                                               
+                                                    
+                                                    
+                                            
+                                            {% endfor %}
+
+                                          </tfoot> 
+                                        </table>
+                                    </div>
+                                </div>
+
+                                
+                                
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="col-xl-4 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"> <i class="fa fa-wh fa-trophy mr-2" aria-hidden="true"></i>Mon top 10 </h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="pt-1 pb-2">
+                                        
+                                        <table class="table table-sm">
+                                          <thead class="mb-2">
+                                            <tr class="text-center align-middle ">
+                                              <th scope="col" class="align-middle">Numéro d'opération</th>
+                                              <th scope="col" class="align-middle">Porteur</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for top in top10 %}
+                                            <tr>
+                                              <td class = "text-center align-middle"><a class="btn btn-sm btn-primary" href="{% url 'dash:opération' top.numero_op %}">{{top.numero_op}}</a></td>
+                                              <td class = "text-center">{{top.porteur}}</td> 
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-wh fa-tasks mr-2" aria-hidden="true"></i>Avancement de la programmation </h6>
+                                </div>
+                                {% for item in enveloppe %}
+                                <div class="card-body">
+                                    
+                                    {% if Axe_1.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold"> Axe 1 <span
+                                            class="float-right">{{Axe_1.Montant_UE|divide:item.Axe_1}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_1.Montant_UE|divide:item.Axe_1}}%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 1 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_2.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right">{{Axe_2.Montant_UE|divide:item.Axe_2}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_2.Montant_UE|divide:item.Axe_2}}%"
+                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 2 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_3.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 3 <span
+                                            class="float-right">{{Axe_3.Montant_UE|divide:item.Axe_3}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_3.Montant_UE|divide:item.Axe_3}}%"
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 3 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_4.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 4 <span
+                                            class="float-right">{{Axe_4.Montant_UE|divide:item.Axe_4}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_4.Montant_UE|divide:item.Axe_4}}%"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                     {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 4 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_5.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 5 <span
+                                            class="float-right">{{Axe_5.Montant_UE|divide:item.Axe_5}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_5.Montant_UE|divide:item.Axe_5}}%"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 5 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                     {% if Axe_6.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 6 <span
+                                            class="float-right">{{Axe_6.Montant_UE|divide:item.Axe_6}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_6.Montant_UE|divide:item.Axe_6}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 6 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_12.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 12 <span
+                                            class="float-right">{{Axe_12.Montant_UE|divide:item.Axe_12}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_12.Montant_UE|divide:item.Axe_12}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 12 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_13.Montant_UE != None %}
+                                    <h4 class="small font-weight-bold">Axe 13 <span
+                                            class="float-right">{{Axe_13.Montant_UE|divide:item.Axe_13}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{Axe_13.Montant_UE|divide:item.Axe_13}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger"> Axe 13 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    <hr>
+
+                                    {% if somme_UE.montant_UE__sum != None %}
+                                    <h4 class="small font-weight-bold">Total <span
+                                            class="float-right">{{somme_UE.montant_UE__sum|divide:item.Enveloppe_totale}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{somme_UE.montant_UE__sum|divide:item.Enveloppe_totale}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold">Total <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-warning"> <i class="fa fa-wh fa-tasks mr-2" aria-hidden="true"> </i>Avancement de la certification </h6>
+                                </div>
+                                {% for item in enveloppe %}
+                                <div class="card-body">
+                                    {% if Axe_1.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold"> Axe 1 <span
+                                            class="float-right">{{Axe_1.Montant_Certif|divide:item.Axe_1}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_1.Montant_Certif|divide:item.Axe_1}}%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 1 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_2.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right">{{Axe_2.Montant_Certif|divide:item.Axe_2}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_2.Montant_Certif|divide:item.Axe_2}}%"
+                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_3.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 3 <span
+                                            class="float-right">{{Axe_3.Montant_Certif|divide:item.Axe_3}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_3.Montant_Certif|divide:item.Axe_3}}%"
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_4.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 4 <span
+                                            class="float-right">{{Axe_4.Montant_Certif|divide:item.Axe_4}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_4.Montant_Certif|divide:item.Axe_4}}%"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if Axe_5.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 5 <span
+                                            class="float-right">{{Axe_5.Montant_Certif|divide:item.Axe_5}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_5.Montant_Certif|divide:item.Axe_5}}%"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_6.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 6 <span
+                                            class="float-right">{{Axe_6.Montant_Certif|divide:item.Axe_6}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_6.Montant_Certif|divide:item.Axe_6}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold"> Axe 2 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_12.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 12 <span
+                                            class="float-right">{{Axe_12.Montant_Certif|divide:item.Axe_12}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_12.Montant_Certif|divide:item.Axe_12}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    {% else %}
+                                    <h4 class="small font-weight-bold text-danger">Axe 12 <span
+                                            class="float-right text-danger">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if Axe_13.Montant_Certif != None %}
+                                    <h4 class="small font-weight-bold">Axe 13 <span
+                                            class="float-right">{{Axe_13.Montant_UE|divide:item.Axe_13}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{Axe_13.Montant_UE|divide:item.Axe_13}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% else %}
+                                    <h4 class="small font-weight-bold">Axe 13 <span
+                                            class="float-right">0%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    {% endif %}
+                                    <hr>
+                                    <h4 class="small font-weight-bold">Total <span
+                                            class="float-right">{{somme_Certif.DP_certif__sum|divide:item.Enveloppe_totale}}%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{somme_Certif.DP_certif__sum|divide:item.Enveloppe_totale}}%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    
+                   
+                  
+                        
+
+                         
+            <!-- End of Main Content -->
+             {% endif %}
+
+{% endblock %}
+
+</html>
