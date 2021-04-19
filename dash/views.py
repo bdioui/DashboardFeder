@@ -1325,7 +1325,7 @@ def login_page(request):
 			messages.info(request, 'username or password is incorect')
 
 	context = {}
-	return render(request, 'login.html')
+	return render(request, 'dash/login.html')
 
 def register_page(request):
 	form = CreateUserForm()
