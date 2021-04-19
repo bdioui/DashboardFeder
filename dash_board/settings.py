@@ -27,7 +27,7 @@ SECRET_KEY = '#_*0!wgy1n#k8v-843qmv4@j0=&4a#5kd8bpah!-_9ox$*0(ec'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ["guarded-bayou-68372.herokuapp.com"]
+ALLOWED_HOSTS = ["guarded-bayou-68372.herokuapp.com", "localhost"]
 
 
 # Application definition
@@ -61,7 +61,7 @@ ROOT_URLCONF = 'dash_board.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
